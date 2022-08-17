@@ -43,3 +43,21 @@ jobs:
         with:
           name: backend
           path: .
+
+  build-frontend:
+    name: build frontend
+    needs: clone-down
+    runs-on: ubuntu-latest
+    steps:
+      - name: download frontend
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend
+          path: .
+      - name: build frontend
+        run: go mod tidy && go mod download && go build
+      - name: upload frontend
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend
+          path: .
