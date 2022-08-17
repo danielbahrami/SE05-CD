@@ -61,3 +61,21 @@ jobs:
         with:
           name: frontend
           path: .
+
+  test-frontend:
+    name: test frontend
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: download frontend
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend
+          path: .
+      - name: test frontend
+        run: go test
+      - name: upload test
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend
+          path: .
