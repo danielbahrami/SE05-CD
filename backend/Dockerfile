@@ -1,16 +1,13 @@
-FROM golang:1.19.0-alpine AS build
+FROM golang:latest
 
-COPY ./ /app
-WORKDIR /app
+WORKDIR /backend
 
+COPY go.mod ./
+COPY go.sum ./
 RUN go mod download
-RUN go build -o /app
 
-FROM golang:1.19.0-alpine
+COPY *.go ./
 
-LABEL org.opencontainers.image.source="https://github.com/danielbahrami/SE05-CD"
+RUN go build -o /backend
 
-COPY --from=build /app /app
-WORKDIR /app
-
-ENTRYPOINT ["./app"]
+ENTRYPOINT ["/backend"]
