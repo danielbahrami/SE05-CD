@@ -15,6 +15,11 @@ jobs:
         with:
           name: code
           path: .
+      - name: upload backend
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend
+          path: ./backend
 
   build-backend:
     name: Build backend
