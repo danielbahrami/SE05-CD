@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  frontend:
+    build:
+      path: ./frontend
+      depends_on:
+        - backend
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      - BACKEND_DNS=backend
+  
+  backend:
+    build: ../backend
+    depends_on:
+      - redis
+    
+    environment:
+      - REDIS_DNS=redis
+
+    ports:
+      - "8010:8010"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
