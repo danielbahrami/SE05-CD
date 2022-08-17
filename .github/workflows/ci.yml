@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: upload Repo
+      - name: upload repo
         uses: actions/upload-artifact@v2
         with:
           name: code
@@ -21,21 +21,15 @@ jobs:
     needs: clone-down
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
+      - name: Download backend
+        uses: actions/download-artifact@v2
         with:
-          version: v1.48
-          working-directory: ./backend
-
-  build-frontend:
-    name: Build frontend
-    needs: clone-down
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
+          name: backend
+          path: .
+      - name: Build backend
+        run: go mod tidy && go mod download && go build
+      - name: Upload backend
+        uses: actions/upload-artifact@v2
         with:
-          version: v1.48
-          working-directory: ./frontend
+          name: backend
+          path: .
