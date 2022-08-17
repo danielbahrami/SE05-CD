@@ -1,16 +1,13 @@
-FROM golang:1.19.0-alpine AS build
+FROM golang:latest
 
-COPY ./ /app
+EXPOSE 8080
+
 WORKDIR /app
+
+COPY . .
 
 RUN go mod download
-RUN go build -o /app
 
-FROM golang:1.19.0-alpine
+RUN go build -o /frontend
 
-LABEL org.opencontainers.image.source="https://github.com/danielbahrami/SE05-CD"
-
-COPY --from=build /app /app
-WORKDIR /app
-
-ENTRYPOINT ["./app"]
+ENTRYPOINT ["/frontend"]
