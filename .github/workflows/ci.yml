@@ -1,0 +1,40 @@
+name: ci
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  clone-down:
+    name: clone down repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: upload Repo
+        uses: actions/upload-artifact@v2
+        with:
+          name: code
+          path: .
+
+  build-backend:
+    name: Build backend
+    needs: clone-down
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.48
+          working-directory: ./backend
+
+  build-frontend:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.48
+          working-directory: ./frontend
