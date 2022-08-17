@@ -30,6 +30,7 @@ jobs:
 
   build-frontend:
     name: Build frontend
+    needs: clone-down
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
