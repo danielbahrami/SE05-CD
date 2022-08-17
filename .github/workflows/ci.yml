@@ -20,6 +20,11 @@ jobs:
         with:
           name: backend
           path: ./backend
+      - name: upload frontend
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend
+          path: ./frontend
 
   build-backend:
     name: Build backend
