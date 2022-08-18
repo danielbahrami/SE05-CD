@@ -10,7 +10,7 @@ env:
 jobs:
   backend-docker-image:
     name: Build and push backend image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
 
   frontend-docker-image:
     name: Build and push frontend image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
