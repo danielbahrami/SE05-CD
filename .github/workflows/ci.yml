@@ -1,102 +1,82 @@
-name: ci
+name: Build and test
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
 
-env:
-  docker_username: ${{ secrets.DOCKER_USERNAME }}
-  docker_password: ${{ secrets.DOCKER_PASSWORD }}
-
 jobs:
-  clone-down:
-    name: clone down repo
+  check-out:
+    name: Check out repo
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: upload repo
+      - name: Upload repo
         uses: actions/upload-artifact@v2
         with:
-          name: code
+          name: Repository
           path: .
-      - name: upload backend
+      - name: Upload backend
         uses: actions/upload-artifact@v2
         with:
-          name: backend
+          name: Backend
           path: ./backend
-      - name: upload frontend
+      - name: Upload frontend
         uses: actions/upload-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: ./frontend
 
   build-backend:
-    name: build backend
-    needs: clone-down
+    name: Build backend
+    needs: check-out
     runs-on: ubuntu-latest
     steps:
-      - name: download backend
+      - name: Download backend
         uses: actions/download-artifact@v2
         with:
-          name: backend
+          name: Backend
           path: .
-      - name: build backend
+      - name: Build backend
         run: go mod tidy && go mod download && go build
-      - name: upload backend
+      - name: Upload backend
         uses: actions/upload-artifact@v2
         with:
-          name: backend
+          name: Backend
           path: .
 
   build-frontend:
-    name: build frontend
-    needs: clone-down
+    name: Build frontend
+    needs: check-out
     runs-on: ubuntu-latest
     steps:
-      - name: download frontend
+      - name: Download frontend
         uses: actions/download-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
-      - name: build frontend
+      - name: Build frontend
         run: go mod tidy && go mod download && go build
-      - name: upload frontend
+      - name: Upload frontend
         uses: actions/upload-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
 
   test-frontend:
-    name: test frontend
+    name: Test frontend
     needs: build-frontend
     runs-on: ubuntu-latest
     steps:
-      - name: download frontend
+      - name: Download frontend
         uses: actions/download-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
-      - name: test frontend
+      - name: Test frontend
         run: go test
-      - name: upload test
+      - name: Upload test
         uses: actions/upload-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
-
-  push-to-dockerhub:
-    name: push to dockerhub
-    needs: [build-backend, test-frontend]
-    runs-on: ubuntu-latest
-    steps:
-      - name: login to dockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ env.docker_username }}
-          password: ${{ env.docker_password }}
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: $docker_username/fortune-cookie:1.0-${GIT_COMMIT::8}
