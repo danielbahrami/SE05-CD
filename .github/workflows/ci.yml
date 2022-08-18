@@ -112,7 +112,7 @@ jobs:
 
   frontend-docker-image:
     name: Build and push frontend image
-    needs: build-frontend
+    needs: [build-frontend, test-frontend]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
