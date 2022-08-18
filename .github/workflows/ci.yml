@@ -90,6 +90,8 @@ jobs:
     needs: [build-backend, test-frontend]
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
