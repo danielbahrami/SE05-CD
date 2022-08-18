@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: deployment-frontend
-        image: SE05-CD/frontend:master
+        image: config/config_frontend:latest
         env:
           - name: BACKEND_DNS
             value: service_backend

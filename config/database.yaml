@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: deployment-database
-        image: redis:latest
+        image: redis:alpine

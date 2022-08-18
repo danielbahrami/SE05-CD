@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: deployment-backend
-        image: SE05-CD/backend:master
+        image: config/config_backend:latest
         env:
           - name: REDIS_DNS
             value: service_database
