@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   #Start of frontend services
@@ -16,7 +16,7 @@ services:
     build: ../backend
     depends_on:
       - redis
-    
+
     environment:
       - REDIS_DNS=redis
 

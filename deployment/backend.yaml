@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: deployment-backend
   labels:
     app: deployment-backend
@@ -15,8 +15,8 @@ spec:
         app: deployment-backend
     spec:
       containers:
-      - name: deployment-backend
-        image: config/config_backend:latest
-        env:
-          - name: REDIS_DNS
-            value: service_database
+        - name: deployment-backend
+          image: config/config_backend:latest
+          env:
+            - name: REDIS_DNS
+              value: service_database
