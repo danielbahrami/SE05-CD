@@ -56,7 +56,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-
   deploy_to_kubernetes_cluster:
     name: Deploy to Kubernetes Cluster
     needs: [frontend-docker-image, backend-docker-image]
