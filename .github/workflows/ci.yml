@@ -87,7 +87,7 @@ jobs:
 
   backend-docker-image:
     name: Build and push backend image
-    needs: [build-backend, test-frontend]
+    needs: build-backend
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
