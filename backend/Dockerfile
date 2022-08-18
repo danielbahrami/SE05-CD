@@ -4,7 +4,10 @@ COPY ./ /backend
 WORKDIR /backend
 
 RUN go mod download
-RUN go build -o backend
+
+COPY main.go ./
+
+RUN go build -o /backend
 
 FROM golang:1.19.0-alpine
 
