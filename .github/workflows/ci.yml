@@ -40,7 +40,7 @@ jobs:
             .
             !.git
       - name: Build backend
-        run: go mod tidy && go mod download && go build
+        run: go mod tidy && go mod download && go build -o backend
       - name: Upload backend
         uses: actions/upload-artifact@v3
         with:
