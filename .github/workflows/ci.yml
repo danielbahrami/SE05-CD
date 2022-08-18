@@ -11,78 +11,78 @@ env:
 
 jobs:
   clone-down:
-    name: clone down repo
+    name: Clone down repo
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: upload repo
+      - name: Upload repo
         uses: actions/upload-artifact@v2
         with:
-          name: code
+          name: Repo
           path: .
-      - name: upload backend
+      - name: Upload backend
         uses: actions/upload-artifact@v2
         with:
-          name: backend
+          name: Backend
           path: ./backend
-      - name: upload frontend
+      - name: Upload frontend
         uses: actions/upload-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: ./frontend
 
   build-backend:
-    name: build backend
+    name: Build backend
     needs: clone-down
     runs-on: ubuntu-latest
     steps:
-      - name: download backend
+      - name: Download backend
         uses: actions/download-artifact@v2
         with:
-          name: backend
+          name: Backend
           path: .
-      - name: build backend
+      - name: Build backend
         run: go mod tidy && go mod download && go build
-      - name: upload backend
+      - name: Upload backend
         uses: actions/upload-artifact@v2
         with:
-          name: backend
+          name: Backend
           path: .
 
   build-frontend:
-    name: build frontend
+    name: Build frontend
     needs: clone-down
     runs-on: ubuntu-latest
     steps:
-      - name: download frontend
+      - name: Download frontend
         uses: actions/download-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
-      - name: build frontend
+      - name: Build frontend
         run: go mod tidy && go mod download && go build
-      - name: upload frontend
+      - name: Upload frontend
         uses: actions/upload-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
 
   test-frontend:
-    name: test frontend
+    name: Test frontend
     needs: build-frontend
     runs-on: ubuntu-latest
     steps:
-      - name: download frontend
+      - name: Download frontend
         uses: actions/download-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
-      - name: test frontend
+      - name: Test frontend
         run: go test
-      - name: upload test
+      - name: Upload test
         uses: actions/upload-artifact@v2
         with:
-          name: frontend
+          name: Frontend
           path: .
 
   push-to-dockerhub:
