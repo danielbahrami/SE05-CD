@@ -10,15 +10,15 @@ env:
   docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
-  clone-down:
-    name: Clone down repo
+  check-out:
+    name: Check out repo
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Upload repo
         uses: actions/upload-artifact@v2
         with:
-          name: Repo
+          name: Repository
           path: .
       - name: Upload backend
         uses: actions/upload-artifact@v2
@@ -33,7 +33,7 @@ jobs:
 
   build-backend:
     name: Build backend
-    needs: clone-down
+    needs: check-out
     runs-on: ubuntu-latest
     steps:
       - name: Download backend
@@ -51,7 +51,7 @@ jobs:
 
   build-frontend:
     name: Build frontend
-    needs: clone-down
+    needs: check-out
     runs-on: ubuntu-latest
     steps:
       - name: Download frontend
