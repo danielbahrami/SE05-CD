@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [master]
 
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
+
 jobs:
   clone-down:
     name: clone down repo
