@@ -36,7 +36,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Backend
-          path: .
+          path: |
+            .
+            !.git
       - name: Build backend
         run: go mod tidy && go mod download && go build
       - name: Upload backend
