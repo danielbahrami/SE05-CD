@@ -87,6 +87,7 @@ jobs:
 
   push-to-dockerhub:
     name: push to dockerhub
+    needs: [build-backend, test-frontend]
     runs-on: ubuntu-latest
     steps:
       - name: login to dockerHub
