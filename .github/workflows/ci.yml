@@ -12,17 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Upload repo
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Repository
           path: .
       - name: Upload backend
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Backend
           path: ./backend
       - name: Upload frontend
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Frontend
           path: ./frontend
@@ -33,14 +33,14 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Download backend
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Backend
           path: .
       - name: Build backend
         run: go mod tidy && go mod download && go build
       - name: Upload backend
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Backend
           path: .
@@ -51,14 +51,14 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Download frontend
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Frontend
           path: .
       - name: Build frontend
         run: go mod tidy && go mod download && go build
       - name: Upload frontend
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Frontend
           path: .
@@ -69,14 +69,14 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Download frontend
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Frontend
           path: .
       - name: Test frontend
         run: go test
       - name: Upload test
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Frontend
           path: .
