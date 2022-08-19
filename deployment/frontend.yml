@@ -17,7 +17,7 @@ spec:
       containers:
         - name: frontend
           image: danielbahrami/fortune-cookie-frontend
-        imagePullSecrets:
+          imagePullSecrets:
           - name: secret/frontend
 ---
 apiVersion: v1
