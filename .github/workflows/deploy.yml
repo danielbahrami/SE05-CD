@@ -87,4 +87,4 @@ jobs:
       #     echo ${{ github.ref_name }}
       - name: Apply manifests
         run: |
-          kubectl apply -f . 
+          kubectl apply -f .
