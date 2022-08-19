@@ -1,4 +1,4 @@
-name: Deliver to Dockerhub
+name: Deploy to Production
 on:
   push:
     branches: [master]
