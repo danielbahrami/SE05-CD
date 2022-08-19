@@ -15,11 +15,10 @@ spec:
         app: deployment-frontend
     spec:
       containers:
-        - name: deployment-frontend
+        - name: frontend
           image: danielbahrami/fortune-cookie-frontend
-          env:
-            - name: BACKEND_DNS
-              value: service_backend
+        imagePullSecrets:
+          - name: Secret/frontend
 ---
 apiVersion: v1
 kind: Service
