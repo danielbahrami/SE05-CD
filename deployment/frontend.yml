@@ -18,7 +18,7 @@ spec:
         - name: secret/frontend
       containers:
         - name: frontend
-          image: danielbahrami/fortune-cookie-frontend:dev
+          image: danielbahrami/fortune-cookie-frontend:master
         
 ---
 apiVersion: v1
@@ -35,4 +35,3 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-
