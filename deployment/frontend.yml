@@ -14,11 +14,12 @@ spec:
       labels:
         app: deployment-frontend
     spec:
+      imagePullSecrets:
+        - name: secret/frontend
       containers:
         - name: frontend
           image: danielbahrami/fortune-cookie-frontend
-          imagePullSecrets:
-          - name: secret/frontend
+        
 ---
 apiVersion: v1
 kind: Service
