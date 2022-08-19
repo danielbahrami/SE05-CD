@@ -17,3 +17,18 @@ spec:
       containers:
         - name: deployment-database
           image: redis:alpine
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-database
+  labels:
+    app: deployment-database
+spec:
+  type: NodePort
+  selector:
+    app: deployment-database
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
