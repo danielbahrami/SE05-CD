@@ -1,35 +1,90 @@
-# name: Deploy to Kubernetes
-# on:
-#   push:
-#     branches: [master]
+name: Deploy to Production
+on:
+  push:
+    branches: [master]
 
-# jobs:
-#   check-out:
-#     name: Check out repo
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Upload frontend
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: manifests
-#           path: ./deployment
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
-#   deploy-to-kubernetes:
-#     name: Deploy to Kubernetes
-#     runs-on: self-hosted
-#     needs: check-out
-#     steps:
-#       - name: Download manifests
-#         uses: actions/download-artifact@v2
-#         with:
-#           name: manifests
-#           path: .
-#       - name: Inject release versions
-#         run: |
-#           sed -i "s/BACKEND_VERSION/${{ github.ref_name }}/g" backend.yaml
-#           sed -i "s/FRONTEND_VERSION/${{ github.ref_name }}/g" frontend.yaml
-#           echo ${{ github.ref_name }}
-#       - name: Apply manifests
-#         run: |
-#           kubectl apply -f .
+jobs:
+  backend-docker-image:
+    name: Build and push backend image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.docker_username }}
+          password: ${{ env.docker_password }}
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: danielbahrami/fortune-cookie-backend
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  frontend-docker-image:
+    name: Build and push frontend image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.docker_username }}
+          password: ${{ env.docker_password }}
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: danielbahrami/fortune-cookie-frontend
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+  
+  check-out:
+    name: Check out repo
+    runs-on: ubuntu-latest
+    needs:
+      - frontend-docker-image
+      - backend-docker-image
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload frontend
+        uses: actions/upload-artifact@v2
+        with:
+          name: manifests
+          path: ./deployment
+
+  deploy-to-kubernetes:
+    name: Deploy to Kubernetes
+    runs-on: self-hosted
+    needs: check-out
+    steps:
+      - name: Download manifests
+        uses: actions/download-artifact@v2
+        with:
+          name: manifests
+          path: .
+      # - name: Inject release versions
+      #   run: |
+      #     sed -i "s/BACKEND_VERSION/${{ github.ref_name }}/g" backend.yml
+      #     sed -i "s/FRONTEND_VERSION/${{ github.ref_name }}/g" frontend.yml
+      #     echo ${{ github.ref_name }}
+      - name: Apply manifests
+        run: |
+          kubectl apply -f .
