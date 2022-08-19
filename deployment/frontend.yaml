@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: deployment-frontend
   labels:
     app: deployment-frontend
@@ -15,8 +15,8 @@ spec:
         app: deployment-frontend
     spec:
       containers:
-      - name: deployment-frontend
-        image: config/config_frontend:latest
-        env:
-          - name: BACKEND_DNS
-            value: service_backend
+        - name: deployment-frontend
+          image: config/config_frontend:latest
+          env:
+            - name: BACKEND_DNS
+              value: service_backend

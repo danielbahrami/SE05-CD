@@ -38,7 +38,7 @@ jobs:
           name: Backend
           path: .
       - name: Build backend
-        run: go mod tidy && go mod download && go build
+        run: go mod download && go build
       - name: Upload backend
         uses: actions/upload-artifact@v2
         with:
@@ -56,7 +56,7 @@ jobs:
           name: Frontend
           path: .
       - name: Build frontend
-        run: go mod tidy && go mod download && go build
+        run: go mod download && go build
       - name: Upload frontend
         uses: actions/upload-artifact@v2
         with:
