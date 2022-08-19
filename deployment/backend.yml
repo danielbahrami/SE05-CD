@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: deployment-backend
-          image: config/config_backend:latest
+          image: danielbahrami/fortune-cookie-backend
           env:
             - name: REDIS_DNS
               value: service_database

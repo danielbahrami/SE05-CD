@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: deployment-frontend
-          image: config/config_frontend:latest
+          image: danielbahrami/fortune-cookie-frontend
           env:
             - name: BACKEND_DNS
               value: service_backend
