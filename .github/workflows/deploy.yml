@@ -86,7 +86,7 @@ jobs:
 
   acceptance-test:
     name: Acceptance test
-    runs-on: [self-hosted, dev]
+    runs-on: self-hosted
     needs: deploy-to-kubernetes
     steps:
       - name: Download deployments
