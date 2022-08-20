@@ -55,7 +55,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-  
+
   check-out:
     name: Check out repo
     runs-on: ubuntu-latest
@@ -84,24 +84,23 @@ jobs:
         run: |
           kubectl apply -f .
 
-  # create test
-  Acceptance-test:
-    runs-on: [self-hosted]
+  acceptance-test:
+    runs-on: self-hosted
     needs: deploy-to-kubernetes
     steps:
-    - name: Download deployments
-      uses: actions/download-artifact@v2
-      with:
-        name: code
-        path: .
-    - name: Get the IP
-      run: echo "DEV_IP=$(kubectl get nodes -o wide | awk 'FNR == 2 {print $7}')" >> $GITHUB_ENV
-    - name: Echo the IP
-      run:  echo "${{ env.DEV_IP }}"
-    - name: Test if its running
-      run:  curl "${{ env.DEV_IP }}":8080/
-    - name: Post
-      run: bash test/backend-connection-test.sh
-      env:
-        COMMIT_SHA: "${{ github.sha }}"
-        DEV_IP: "${{env.DEV_IP }}<"
+      - name: Download deployments
+        uses: actions/download-artifact@v2
+        with:
+          name: code
+          path: .
+      - name: Get the IP
+        run: echo "DEV_IP=$(kubectl get nodes -o wide | awk 'FNR == 2 {print $7}')" >> $GITHUB_ENV
+      - name: Echo the IP
+        run: echo "${{ env.DEV_IP }}"
+      - name: Test if its running
+        run: curl "${{ env.DEV_IP }}":8080/
+      - name: Post
+        run: bash test/backend-connection-test.sh
+        env:
+          COMMIT_SHA: "${{ github.sha }}"
+          DEV_IP: "${{env.DEV_IP }}<"
