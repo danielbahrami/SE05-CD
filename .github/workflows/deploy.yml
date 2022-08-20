@@ -101,7 +101,7 @@ jobs:
       - name: Test if its running
         run: curl "${{ env.DEV_IP }}":31600/
       - name: Post
-        run: sh tests/backend-connection-test.sh
+        run: sh ~/tests/backend-connection-test.sh
         env:
           COMMIT_SHA: "${{ github.sha }}"
           DEV_IP: "${{env.DEV_IP }}<"
