@@ -86,7 +86,7 @@ jobs:
 
   acceptance-test:
     name: Acceptance test
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, dev]
     needs: deploy-to-kubernetes
     steps:
       - name: Download deployments
