@@ -104,4 +104,4 @@ jobs:
         run: sh ~/tests/backend-connection-test.sh
         env:
           COMMIT_SHA: "${{ github.sha }}"
-          DEV_IP: "${{env.DEV_IP }}<"
+          DEV_IP: "${{ env.DEV_IP }}"
