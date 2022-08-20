@@ -6,7 +6,7 @@ WORKDIR /backend
 
 RUN go mod download
 
-COPY main.go ./
+COPY *.go /backend
 
 RUN go build -o /backend
 
