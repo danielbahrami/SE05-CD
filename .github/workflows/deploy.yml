@@ -86,7 +86,7 @@ jobs:
 
   acceptance-test:
     name: Acceptance test
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     needs: deploy-to-kubernetes
     steps:
       - name: Download deployments
@@ -101,7 +101,7 @@ jobs:
       - name: Test if its running
         run: curl "${{ env.DEV_IP }}":31600/
       - name: Post
-        run: bash tests/backend-connection-test.sh
+        run: bash ../tests/backend-connection-test.sh
         env:
           COMMIT_SHA: "${{ github.sha }}"
           DEV_IP: "${{env.DEV_IP }}<"
