@@ -28,7 +28,7 @@ metadata:
   labels:
     app: deployment-backend
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: deployment-backend
   ports:

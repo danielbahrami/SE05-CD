@@ -25,7 +25,7 @@ metadata:
   labels:
     app: deployment-database
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: deployment-database
   ports:
