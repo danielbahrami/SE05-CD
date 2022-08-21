@@ -1,4 +1,4 @@
-if wget --spider "http://${DEV_IP}:31147/fortunes"; then
+if curl "http://${DEV_IP}:31147/fortunes"; then
   echo "Backend connection test passed"
 else
   echo "Backend connection test failed"
