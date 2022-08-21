@@ -1,7 +1,7 @@
 name: Deploy to production
 on:
   push:
-    branches: [master, dev]
+    branches: [master]
 
 env:
   docker_username: ${{ secrets.DOCKER_USERNAME }}
@@ -84,8 +84,8 @@ jobs:
         run: |
           kubectl apply -f .
 
-  acceptance-test:
-    name: Acceptance test
+  backend-connection-test:
+    name: Backend connection test
     runs-on: self-hosted
     needs: deploy-to-kubernetes
     steps:
@@ -99,7 +99,29 @@ jobs:
       - name: Echo the IP
         run: echo "${{ env.DEV_IP }}"
       - name: Test if its running
-        run: curl "${{ env.DEV_IP }}":31600/
+        run: curl "${{ env.DEV_IP }}":31147/fortunes
+      - name: Post
+        run: sh ~/tests/backend-connection-test.sh
+        env:
+          COMMIT_SHA: "${{ github.sha }}"
+          DEV_IP: "${{ env.DEV_IP }}"
+
+  frontend-connection-test:
+    name: Frontend connection test
+    runs-on: self-hosted
+    needs: deploy-to-kubernetes
+    steps:
+      - name: Download deployments
+        uses: actions/download-artifact@v2
+        with:
+          name: deployments
+          path: .
+      - name: Get the IP
+        run: echo "DEV_IP=$(kubectl get nodes -o wide | awk 'FNR == 2 {print $7}')" >> $GITHUB_ENV
+      - name: Echo the IP
+        run: echo "${{ env.DEV_IP }}"
+      - name: Test if its running
+        run: curl "${{ env.DEV_IP }}":30175/
       - name: Post
         run: sh ~/tests/frontend-connection-test.sh
         env:
