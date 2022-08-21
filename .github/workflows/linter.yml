@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ["1.18.x","1.19.x"]
+        go: ["1.17.x"]
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v1
