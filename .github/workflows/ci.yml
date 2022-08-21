@@ -83,6 +83,7 @@ jobs:
 
   linter:
     name: Go linter
+    needs: test-frontend
     strategy:
       fail-fast: false
       matrix:
