@@ -81,7 +81,7 @@ jobs:
           name: Frontend
           path: .
 
-  linter:
+  go-linter:
     name: Go linter
     needs: test-frontend
     strategy:
