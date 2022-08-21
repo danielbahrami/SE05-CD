@@ -99,7 +99,7 @@ jobs:
       - name: Echo the IP
         run: echo "${{ env.DEV_IP }}"
       - name: Test if its running
-        run: curl "${{ env.DEV_IP }}":31600/
+        run: curl "${{ env.DEV_IP }}":30175/
       - name: Post
         run: sh ~/tests/frontend-connection-test.sh
         env:
