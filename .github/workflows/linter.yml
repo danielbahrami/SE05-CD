@@ -1,37 +1,26 @@
-name: GO CI
-on: pull_request
-jobs:
-  clone-down:
-    name: Get the repo
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Upload the repo
-        uses: actions/upload-artifact@v2
-        with:
-          name: code
-          path: .
+name: Lint
+on:
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches:
+      - main
 
-  lint-backend:
-    name: Lint the backend
-    needs: [clone-down]
+permissions:
+  checks: write
+  contents: write
+
+jobs:
+  run-linters:
+    name: Run linters
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
+      - name: Check out git repository
+      - uses: actions/checkout@v1
         with:
-          version: v1.48
-          working-directory: ./backend
-  
-  lint-frontend:
-    name: Lint the frontend
-    needs: [clone-down]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: golangci
-        uses: golangci/golangci-lint-action@v2
+          fetch-depth: 1
+      - uses: dominikh/staticcheck-action@v1.2.0
         with:
-          version: v1.48
-          working-directory: ./frontend
+          version: "2022.1.1"
