@@ -26,10 +26,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: deployment
 spec:
   selector:
-    app: frontend
+    app: deployment
     tier: frontend
   ports:
     - protocol: TCP

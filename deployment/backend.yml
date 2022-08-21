@@ -6,32 +6,34 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: backend
+      app: deployment
       tier: backend
       track: stable
   template:
     metadata:
       labels:
-        app: backend
+        app: deployment
         tier: backend
         track: stable
     spec:
       containers:
-        - name: deployment-backend
+        - name: backend
           image: danielbahrami/fortune-cookie-backend:master
           env:
             - name: REDIS_DNS
               value: service_database
+          ports:
+            - containerPort: 90
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: deployment
 spec:
   selector:
-    app: backend
+    app: deployment
     tier: backend
   ports:
     - protocol: TCP
-      port: 8010
+      port: 90
       targetPort: http
