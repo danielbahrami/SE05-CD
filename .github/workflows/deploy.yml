@@ -106,6 +106,8 @@ jobs:
           DEV_PORT: "${{ env.DEV_PORT }}"
       - name: Save the actual port
         run: cat ~/SplitString.sh >> $GITHUB_ENV
+        env:
+          DEV_PORT: "${{ env.DEV_PORT }}"
       - name: Echo the port
         run: echo "${{ env.DEV_PORT }}"
       - name: Test if its running
