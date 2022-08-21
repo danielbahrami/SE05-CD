@@ -98,10 +98,21 @@ jobs:
         run: echo "DEV_IP=$(kubectl get nodes -o wide | awk 'FNR == 2 {print $7}')" >> $GITHUB_ENV
       - name: Echo the IP
         run: echo "${{ env.DEV_IP }}"
+      - name: Get the port
+        run: echo "DEV_PORT=$(kubectl get services -o wide | awk 'FNR == 4 {print $5}')" >> $GITHUB_ENV
+      - name: Remove first and 3rd part
+        run: sh ~/SplitString.sh
+        env:
+          DEV_PORT: "${{ env.DEV_PORT }}"
+      - name: Save the actual port
+        run: cat ~/SplitString.sh >> $GITHUB_ENV
+      - name: Echo the port
+        run: echo "${{ env.DEV_PORT }}"
       - name: Test if its running
-        run: curl "${{ env.DEV_IP }}":30175/
+        run: curl "${{ env.DEV_IP }}":"${{ env.DEV_PORT }}"/
       - name: Post
         run: sh ~/tests/frontend-connection-test.sh
         env:
           COMMIT_SHA: "${{ github.sha }}"
           DEV_IP: "${{ env.DEV_IP }}"
+          DEV_PORT: "${{ env.DEV_PORT }}"
