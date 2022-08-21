@@ -22,7 +22,6 @@ spec:
           env:
             - name: BACKEND_DNS
               value: service-backend
-
 ---
 apiVersion: v1
 kind: Service
