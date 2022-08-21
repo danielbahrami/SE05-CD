@@ -101,13 +101,7 @@ jobs:
       - name: Get the port
         run: echo "DEV_PORT=$(kubectl get services -o wide | awk 'FNR == 4 {print $5}')" >> $GITHUB_ENV
       - name: Remove first and 3rd part
-        run: sh ~/SplitString.sh
-        env:
-          DEV_PORT: "${{ env.DEV_PORT }}"
-      - name: Save the actual port
-        run: cat ~/SplitString.sh >> $GITHUB_ENV
-        env:
-          DEV_PORT: "${{ env.DEV_PORT }}"
+        run: sh "str= {{ env.DEV_PORT }}; port=${str#*:}; port=${port%%/*}; echo $port >> $GITHUB_ENV"
       - name: Echo the port
         run: echo "${{ env.DEV_PORT }}"
       - name: Test if its running
