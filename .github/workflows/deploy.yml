@@ -85,7 +85,7 @@ jobs:
           kubectl apply -f .
 
   acceptance-test:
-    name: Acceptance test
+    name: Frontend connection test
     runs-on: self-hosted
     needs: deploy-to-kubernetes
     steps:
