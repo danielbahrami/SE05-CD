@@ -101,7 +101,8 @@ jobs:
       - name: Get the port
         run:  |
           echo 'DEV_PORT<<EOF' >> $GITHUB_ENV
-          cat ~/SplitString.sh >> $GITHUB_ENV
+          sh ~/SplitString.sh
+          cat ~/DEV_PORT.txt >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - name: Echo the port
         run:  echo "${{ env.DEV_PORT }}"
