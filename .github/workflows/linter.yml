@@ -20,7 +20,7 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.29
+          version: v1.48
           working-directory: ./backend
   
   lint-frontend:
@@ -31,5 +31,5 @@ jobs:
       - name: golangci
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.29
+          version: v1.48
           working-directory: ./frontend
