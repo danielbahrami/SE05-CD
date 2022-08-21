@@ -99,7 +99,10 @@ jobs:
       - name: Echo the IP
         run: echo "${{ env.DEV_IP }}"
       - name: Get the port
-        run:  cat ~/SplitString.sh >> $GITHUB_ENV
+        run:  |
+          echo 'DEV_PORT<<EOF' >> $GITHUB_ENV
+          cat ~/SplitString.sh >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - name: Echo the port
         run:  echo "${{ env.DEV_PORT }}"
       - name: Test if its running
